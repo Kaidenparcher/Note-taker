@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-const indexRouter = require('/develop/public/js.index.js');
+const indexRouter = require('./public/assets/js/index.js');
 
 
 const app = express();
