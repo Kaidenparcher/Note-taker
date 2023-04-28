@@ -2,33 +2,17 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-// const indexRouter = require('./public/assets/js/index.js');
+
 
 
 const app = express();
-const PORT = process.env.PORT || 3015;
+const PORT = process.env.PORT || 3030;
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
-// app.use('/', indexRouter);
 
 
-const getNotes = function () {
-  const noteData = fs.readFileSync("./db/db.json", "utf8");
-  const notesData = JSON.parse(noteData);
 
-  return notesData;
-}
-
-app.get('/api/notes', (req, res) => {
-
-  const notesData = getNotes();
-  res.json(notesData);
-
-  console.log(`${req.method} Routing to Note Storage`)
-  }
-  );
 
 app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/notes.html'))
@@ -45,17 +29,23 @@ app.get('/notes', (req, res) => {
 
 // API route to get all saved notes
 app.get('/api/notes', (req, res) => {
-  const notesData = JSON.parse(fs.readFileSync('./db/db.json'));
-  res.json(notesData);
+  fs.readFile('./db/db.json', 'utf8', (err, data) =>{
+    if (err) {
+      console.error(err);
+
+  }
+  
+  res.send(data);
+})
 });
 
 // API route to save a new note
 app.post('/api/notes', (req, res) => {
   console.log(`${req.method} request to add note`);
   const {title, text} = req.body;
-  let newNote;
+  let newNote = {}
   if (title && text) {
-    let newNote = {
+    newNote = {
     title,
     text,
     id: uuidv4()
@@ -77,7 +67,7 @@ app.post('/api/notes', (req, res) => {
         )}
       })
     }
-    res.redirect("/");   
+    res.send("hello");   
 });
 
 
