@@ -6,7 +6,7 @@ const indexRouter = require('/develop/public/js.index.js');
 
 
 const app = express();
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 3003;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
