@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 
 const app = express();
-const PORT = process.env.PORT || 3012;
+const PORT = process.env.PORT || 3015;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -60,11 +60,8 @@ app.post('/api/notes', (req, res) => {
     text,
     id: uuidv4()
   }
-  };
-
-  // const notesData = JSON.parse(fs.readFileSync('./Develop/db/db.json', 'utf8', (err, data) =>
   
-  // ));
+
   fs.readFile('./db/db.json', 'utf8', (err, data) => {
     if (err) {
         console.error(err);
@@ -72,14 +69,18 @@ app.post('/api/notes', (req, res) => {
         const notesData = JSON.parse(data);
         notesData.push(newNote);
   
-        fs.writeFile('./db/db.json', JSON.stringify(notes, null, 3),
+        fs.writeFile('./db/db.json', JSON.stringify(notesData, null, 4),
         (err) =>
         err
         ?console.error(err)
         :console.log('This worked.')
-  )}
-})
+        )}
+      })
+    }
+    res.redirect("/");   
 });
+
+
 
 // API route to delete a note
 app.delete('/api/notes/:id', (req, res) => {
