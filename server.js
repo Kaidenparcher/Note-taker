@@ -2,13 +2,16 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const indexRouter = require('/develop/public/js.index.js');
+
 
 const app = express();
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 3004;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use('/', indexRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/develop/public/index.html'));
